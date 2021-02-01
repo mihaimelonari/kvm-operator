@@ -189,21 +189,21 @@ func New(config Config) (*Service, error) {
 		}
 	}
 
-	var drainerController *controller.Drainer
-	{
-		c := controller.DrainerConfig{
-			K8sClient: k8sClient,
-			Logger:    config.Logger,
+	// var drainerController *controller.Drainer
+	// {
+	// 	c := controller.DrainerConfig{
+	// 		K8sClient: k8sClient,
+	// 		Logger:    config.Logger,
 
-			CRDLabelSelector: config.Viper.GetString(config.Flag.Service.CRD.LabelSelector),
-			ProjectName:      project.Name(),
-		}
+	// 		CRDLabelSelector: config.Viper.GetString(config.Flag.Service.CRD.LabelSelector),
+	// 		ProjectName:      project.Name(),
+	// 	}
 
-		drainerController, err = controller.NewDrainer(c)
-		if err != nil {
-			return nil, microerror.Mask(err)
-		}
-	}
+	// 	drainerController, err = controller.NewDrainer(c)
+	// 	if err != nil {
+	// 		return nil, microerror.Mask(err)
+	// 	}
+	// }
 
 	var unhealthyNodeTerminatorController *controller.UnhealthyNodeTerminator
 	{
@@ -254,10 +254,10 @@ func New(config Config) (*Service, error) {
 	newService := &Service{
 		Version: versionService,
 
-		bootOnce:                          sync.Once{},
-		clusterController:                 clusterController,
-		deleterController:                 deleterController,
-		drainerController:                 drainerController,
+		bootOnce:          sync.Once{},
+		clusterController: clusterController,
+		deleterController: deleterController,
+		// drainerController:                 drainerController,
 		unhealthyNodeTerminatorController: unhealthyNodeTerminatorController,
 		statusResourceCollector:           statusResourceCollector,
 	}
@@ -276,7 +276,7 @@ func (s *Service) Boot() {
 
 		go s.clusterController.Boot(context.Background())
 		go s.deleterController.Boot(context.Background())
-		go s.drainerController.Boot(context.Background())
+		// go s.drainerController.Boot(context.Background())
 		go s.unhealthyNodeTerminatorController.Boot(context.Background())
 	})
 }
