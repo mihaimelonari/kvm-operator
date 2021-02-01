@@ -36,10 +36,10 @@ type Config struct {
 type Service struct {
 	Version *version.Service
 
-	bootOnce                          sync.Once
-	clusterController                 *controller.Cluster
-	deleterController                 *controller.Deleter
-	drainerController                 *controller.Drainer
+	bootOnce          sync.Once
+	clusterController *controller.Cluster
+	deleterController *controller.Deleter
+	// drainerController                 *controller.Drainer
 	unhealthyNodeTerminatorController *controller.UnhealthyNodeTerminator
 	statusResourceCollector           *statusresource.CollectorSet
 }
